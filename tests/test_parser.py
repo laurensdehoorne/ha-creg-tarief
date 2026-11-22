@@ -41,6 +41,8 @@ def test_kwartaal_op_datum_niet_bovenste_rij():
 
 def test_kwartaalgrenzen():
     t = parse_page(HTML, "vlaanderen")
+    assert select(t, date(2026, 11, 22))["volgend_tarief_vanaf"] == date(2027, 1, 1)
+    assert select(t, date(2026, 12, 31))["volgend_tarief_vanaf"] == date(2027, 1, 1)
     assert select(t, date(2026, 9, 30))["kwartaal"] == "Q3/2026"
     assert select(t, date(2026, 10, 1))["kwartaal"] == "Q4/2026"
     assert select(t, date(2026, 12, 31))["kwartaal"] == "Q4/2026"

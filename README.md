@@ -17,10 +17,19 @@ Bron: [CREG – Tarief voor terugbetaling thuisladen bedrijfswagens](https://www
 | `kwartaal` | `Q4/2026` |
 | `volgend_kwartaal` | `Q1/2027` |
 | `volgend_tarief` | `0.3616` (leeg als nog niet gepubliceerd) |
+| `volgend_tarief_vanaf` | `2027-01-01` (ingangsdatum van het volgende tarief) |
 | `bron_url` | link naar de CREG-pagina |
 | `laatst_opgehaald` | ISO-tijdstip van de laatste geslaagde fetch |
 
-De pagina wordt dagelijks opgehaald. Als de tabel wijzigt of niet leesbaar is, of als het huidige kwartaal ontbreekt, wordt de sensor **niet beschikbaar** (nooit een fout getal). De reden staat in het HA-log.
+De CREG publiceert het tarief van het volgende kwartaal weken op voorhand, dus de pagina wordt zuinig opgehaald:
+
+- **wekelijks** als het tarief van het volgende kwartaal er al staat;
+- **dagelijks** zolang het volgende kwartaal nog niet gepubliceerd is;
+- **na een uur** opnieuw als de pagina niet bereikbaar was.
+
+Bij de kwartaalwissel schakelt de sensor om middernacht (Brussel) naar het nieuwe tarief, zonder de pagina opnieuw op te halen.
+
+De laatst opgehaalde tabel wordt bewaard (ook over een herstart heen). Is de CREG-pagina even niet bereikbaar, dan blijft de sensor die waarde tonen; `laatst_opgehaald` toont hoe oud ze is. De sensor wordt **niet beschikbaar** (nooit een fout getal) als de pagina wel bereikbaar is maar de tabel gewijzigd of onleesbaar is, of als het huidige kwartaal ontbreekt. De reden staat in het HA-log.
 
 ## Voorbeeld: laadkost van een sessie
 ```yaml

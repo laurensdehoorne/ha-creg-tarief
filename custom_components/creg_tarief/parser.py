@@ -92,6 +92,10 @@ def next_quarter(q: Quarter) -> Quarter:
     return (q[0], q[1] + 1) if q[1] < 4 else (q[0] + 1, 1)
 
 
+def quarter_start(q: Quarter) -> date:
+    return date(q[0], (q[1] - 1) * 3 + 1, 1)
+
+
 def label(q: Quarter) -> str:
     return f"Q{q[1]}/{q[0]}"
 
@@ -110,4 +114,5 @@ def select(table: dict[Quarter, float], today: date) -> dict:
         "tarief": table[cur],
         "volgend_kwartaal": label(nxt),
         "volgend_tarief": table.get(nxt),
+        "volgend_tarief_vanaf": quarter_start(nxt),
     }
