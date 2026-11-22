@@ -1,5 +1,8 @@
 name: Release
+# Start via Actions → Release → "Run workflow" (maakt tag + release aan op basis
+# van de versie in manifest.json), of door zelf een tag v* te pushen.
 on:
+  workflow_dispatch:
   push:
     tags: ["v*"]
 permissions:
@@ -9,15 +12,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Tag moet overeenkomen met manifest-versie
+      - name: Versie bepalen
+        id: v
         run: |
-          v=$(jq -r .version custom_components/creg_tarief/manifest.json)
-          if [ "v$v" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME komt niet overeen met manifest-versie $v"; exit 1
+          tag="v$(jq -r .version custom_components/creg_tarief/manifest.json)"
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "$GITHUB_REF_NAME" != "$tag" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME komt niet overeen met manifest-versie $tag"; exit 1
           fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
       - name: Release aanmaken
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.v.outputs.tag }}
         run: |
-          awk -v t="## $GITHUB_REF_NAME" '$0==t{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
-          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG bestaat al, niets te doen."; exit 0
+          fi
+          awk -v t="## $TAG" '$0==t{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::Geen sectie '## $TAG' in CHANGELOG.md"; exit 1
+          fi
+          gh release create "$TAG" --title "$TAG" --notes-file notes.md --target "$GITHUB_SHA"
