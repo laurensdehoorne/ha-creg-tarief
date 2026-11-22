@@ -1,0 +1,23 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Tag moet overeenkomen met manifest-versie
+        run: |
+          v=$(jq -r .version custom_components/creg_tarief/manifest.json)
+          if [ "v$v" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME komt niet overeen met manifest-versie $v"; exit 1
+          fi
+      - name: Release aanmaken
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v t="## $GITHUB_REF_NAME" '$0==t{f=1;next} /^## /{f=0} f' CHANGELOG.md > notes.md
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
