@@ -1,6 +1,7 @@
 {
   "domain": "creg_tarief",
   "name": "CREG-tarief thuisladen",
+  "categories": ["energy.energy_prices"],
   "codeowners": ["@laurensdehoorne"],
   "config_flow": true,
   "documentation": "https://github.com/laurensdehoorne/ha-creg-tarief",
