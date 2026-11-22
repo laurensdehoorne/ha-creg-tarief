@@ -21,7 +21,7 @@ Bron: [CREG – Tarief voor terugbetaling thuisladen bedrijfswagens](https://www
 | `bron_url` | link naar de CREG-pagina |
 | `laatst_opgehaald` | ISO-tijdstip van de laatste geslaagde fetch |
 
-De pagina wordt dagelijks opgehaald. Als de tabel wijzigt of niet leesbaar is, of als het huidige kwartaal ontbreekt, wordt de sensor **niet beschikbaar** (nooit een fout getal). De reden staat in het HA-log.
+De pagina wordt dagelijks opgehaald (na een mislukte poging opnieuw na een uur). Bij de kwartaalwissel schakelt de sensor om middernacht (Brussel) meteen naar het nieuwe tarief. Als de tabel wijzigt of niet leesbaar is, of als het huidige kwartaal ontbreekt, wordt de sensor **niet beschikbaar** (nooit een fout getal). De reden staat in het HA-log.
 
 ## Voorbeeld: laadkost van een sessie
 ```yaml

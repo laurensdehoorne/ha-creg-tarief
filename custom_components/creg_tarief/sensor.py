@@ -1,7 +1,7 @@
 """Sensor 'CREG-tarief'."""
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime, time
 from zoneinfo import ZoneInfo
 
 from homeassistant.components.sensor import SensorEntity
@@ -9,12 +9,12 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo, DeviceEntryType
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, SOURCE_URL, TIMEZONE
 from .coordinator import CregCoordinator
-from .parser import ParseError, select
+from .parser import ParseError, next_quarter, quarter_of, quarter_start, select
 
 BRUSSELS = ZoneInfo(TIMEZONE)
 
@@ -43,14 +43,19 @@ class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
-        # Kwartaalwissel zonder te wachten op de volgende dagelijkse fetch
-        self.async_on_remove(
-            async_track_time_interval(self.hass, self._tick, timedelta(minutes=30))
-        )
+        self._schedule_quarter_change()
 
     @callback
-    def _tick(self, _now: datetime) -> None:
+    def _schedule_quarter_change(self) -> None:
+        """Exact om middernacht (Brussel) bij de kwartaalwissel bijwerken."""
+        nxt = quarter_start(next_quarter(quarter_of(datetime.now(BRUSSELS).date())))
+        when = datetime.combine(nxt, time(0, 0, 1), BRUSSELS)
+        self.async_on_remove(async_track_point_in_time(self.hass, self._quarter_changed, when))
+
+    @callback
+    def _quarter_changed(self, _now: datetime) -> None:
         self.async_write_ha_state()
+        self._schedule_quarter_change()
 
     def _selection(self) -> dict | None:
         if not self.coordinator.last_update_success or not self.coordinator.data:
