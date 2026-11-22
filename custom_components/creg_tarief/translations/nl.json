@@ -1,0 +1,12 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CREG-tarief thuisladen",
+        "description": "Kies het gewest waarvoor je het CREG-tarief wil ophalen.",
+        "data": { "region": "Gewest" }
+      }
+    },
+    "abort": { "already_configured": "Dit gewest is al ingesteld" }
+  }
+}
