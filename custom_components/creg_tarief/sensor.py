@@ -27,6 +27,7 @@ class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
     _attr_has_entity_name = True
     _attr_name = "CREG-tarief"
     _attr_native_unit_of_measurement = "EUR/kWh"
+    _attr_icon = "mdi:ev-station"
     _attr_state_class = None
     _attr_suggested_display_precision = 4
 
@@ -78,6 +79,7 @@ class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
             "kwartaal": sel["kwartaal"],
             "volgend_kwartaal": sel["volgend_kwartaal"],
             "volgend_tarief": sel["volgend_tarief"],
+            "volgend_tarief_vanaf": sel["volgend_tarief_vanaf"].isoformat(),
             "bron_url": SOURCE_URL,
             "laatst_opgehaald": fetched.isoformat() if fetched else None,
         }

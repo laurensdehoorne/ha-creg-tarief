@@ -17,6 +17,7 @@ Bron: [CREG – Tarief voor terugbetaling thuisladen bedrijfswagens](https://www
 | `kwartaal` | `Q4/2026` |
 | `volgend_kwartaal` | `Q1/2027` |
 | `volgend_tarief` | `0.3616` (leeg als nog niet gepubliceerd) |
+| `volgend_tarief_vanaf` | `2027-01-01` (ingangsdatum van het volgende tarief) |
 | `bron_url` | link naar de CREG-pagina |
 | `laatst_opgehaald` | ISO-tijdstip van de laatste geslaagde fetch |
 
