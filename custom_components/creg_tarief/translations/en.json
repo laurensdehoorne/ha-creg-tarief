@@ -1,0 +1,12 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CREG home charging tariff",
+        "description": "Choose the region for which you want to fetch the CREG tariff.",
+        "data": { "region": "Region" }
+      }
+    },
+    "abort": { "already_configured": "This region is already configured" }
+  }
+}
