@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.2.1
+- Engelse vertaling toegevoegd (`translations/en.json`), zodat de configuratie ook in andere talen dan Nederlands teksten toont.
+
 ## v0.2.0
 - Icoon voor de sensor (`mdi:ev-station`) en eigen brand-icoon voor de integratie.
 - Nieuw attribuut `volgend_tarief_vanaf`: datum waarop het volgende tarief ingaat.
