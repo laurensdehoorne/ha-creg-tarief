@@ -22,7 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add: AddEnt
 
 class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
     _attr_has_entity_name = True
-    _attr_name = "CREG-tarief"
+    _attr_translation_key = "tarief"
     _attr_native_unit_of_measurement = "EUR/kWh"
     _attr_icon = "mdi:ev-station"
     _attr_state_class = None

@@ -4,9 +4,49 @@
       "user": {
         "title": "CREG-tarief thuisladen",
         "description": "Kies het gewest waarvoor je het CREG-tarief wil ophalen.",
-        "data": { "region": "Gewest" }
+        "data": {
+          "region": "Gewest"
+        }
       }
     },
-    "abort": { "already_configured": "Dit gewest is al ingesteld" }
+    "abort": {
+      "already_configured": "Dit gewest is al ingesteld"
+    }
+  },
+  "selector": {
+    "region": {
+      "options": {
+        "vlaanderen": "Vlaanderen",
+        "brussel": "Brussel",
+        "wallonie": "Wallonië"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "tarief": {
+        "name": "CREG-tarief",
+        "state_attributes": {
+          "kwartaal": {
+            "name": "Kwartaal"
+          },
+          "volgend_kwartaal": {
+            "name": "Volgend kwartaal"
+          },
+          "volgend_tarief": {
+            "name": "Volgend tarief"
+          },
+          "volgend_tarief_vanaf": {
+            "name": "Volgend tarief vanaf"
+          },
+          "bron_url": {
+            "name": "Bron"
+          },
+          "laatst_opgehaald": {
+            "name": "Laatst opgehaald"
+          }
+        }
+      }
+    }
   }
 }
