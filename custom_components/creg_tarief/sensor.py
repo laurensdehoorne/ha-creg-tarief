@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import datetime, time
-from zoneinfo import ZoneInfo
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
@@ -12,11 +11,9 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, SOURCE_URL, TIMEZONE
+from .const import BRUSSELS, DOMAIN, SOURCE_URL
 from .coordinator import CregCoordinator
 from .parser import ParseError, next_quarter, quarter_of, quarter_start, select
-
-BRUSSELS = ZoneInfo(TIMEZONE)
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add: AddEntitiesCallback) -> None:

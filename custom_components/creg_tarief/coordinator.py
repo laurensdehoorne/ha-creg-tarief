@@ -19,7 +19,7 @@ from homeassistant.helpers.storage import Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .const import DOMAIN, SOURCE_URL, TIMEZONE
+from .const import BRUSSELS, DOMAIN, SOURCE_URL
 from .parser import ParseError, Quarter, next_quarter, parse_page, quarter_of
 
 _LOGGER = logging.getLogger(__name__)
@@ -61,7 +61,7 @@ class CregCoordinator(DataUpdateCoordinator[dict[Quarter, float]]):
             _LOGGER.warning("Bewaarde CREG-tabel is ongeldig en wordt genegeerd")
 
     def _interval_for(self, table: dict[Quarter, float]) -> timedelta:
-        today = dt_util.now(dt_util.get_time_zone(TIMEZONE)).date()
+        today = dt_util.now(BRUSSELS).date()
         if next_quarter(quarter_of(today)) in table:
             return INTERVAL_NEXT_KNOWN
         return INTERVAL_NEXT_UNKNOWN

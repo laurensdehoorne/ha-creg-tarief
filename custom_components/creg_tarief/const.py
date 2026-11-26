@@ -1,4 +1,5 @@
 """Constanten voor CREG-tarief."""
+from zoneinfo import ZoneInfo
 
 DOMAIN = "creg_tarief"
 SOURCE_URL = (
@@ -6,6 +7,8 @@ SOURCE_URL = (
     "creg-tarief-voor-terugbetaling-thuisladen-bedrijfswagens"
 )
 TIMEZONE = "Europe/Brussels"
+# Eén keer bij het importeren opgebouwd (niet in de event loop).
+BRUSSELS = ZoneInfo(TIMEZONE)
 
 CONF_REGION = "region"
 DEFAULT_REGION = "vlaanderen"
