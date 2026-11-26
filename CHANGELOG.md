@@ -1,8 +1,10 @@
 # Changelog
 
-## v0.2.2
+## v0.2.3
 - Home Assistant-conventies: `entry.runtime_data` i.p.v. `hass.data`, `_async_setup` in de coordinator, `PARALLEL_UPDATES`.
 - Sensornaam, gewestlabels en attribuutnamen zitten nu in de vertalingen (nl/en) in plaats van in de code.
+
+## v0.2.2
 - Tijdzone Europe/Brussels wordt één keer bij het importeren opgebouwd (`const.BRUSSELS`) in plaats van in de event loop, zodat Home Assistant niet kan blokkeren op trage schijven.
 
 ## v0.2.1
