@@ -45,7 +45,7 @@ class CregCoordinator(DataUpdateCoordinator[dict[Quarter, float]]):
         self._store: Store[dict] = Store(hass, STORAGE_VERSION, storage_key(entry))
         self._cached: dict[Quarter, float] | None = None
 
-    async def async_load_cache(self) -> None:
+    async def _async_setup(self) -> None:
         """Laatst opgehaalde tabel van schijf lezen (vóór de eerste refresh)."""
         raw = await self._store.async_load()
         if not raw or raw.get("region") != self.region:

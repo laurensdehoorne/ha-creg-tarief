@@ -4,9 +4,49 @@
       "user": {
         "title": "CREG home charging tariff",
         "description": "Choose the region for which you want to fetch the CREG tariff.",
-        "data": { "region": "Region" }
+        "data": {
+          "region": "Region"
+        }
       }
     },
-    "abort": { "already_configured": "This region is already configured" }
+    "abort": {
+      "already_configured": "This region is already configured"
+    }
+  },
+  "selector": {
+    "region": {
+      "options": {
+        "vlaanderen": "Flanders",
+        "brussel": "Brussels",
+        "wallonie": "Wallonia"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "tarief": {
+        "name": "CREG tariff",
+        "state_attributes": {
+          "kwartaal": {
+            "name": "Quarter"
+          },
+          "volgend_kwartaal": {
+            "name": "Next quarter"
+          },
+          "volgend_tarief": {
+            "name": "Next tariff"
+          },
+          "volgend_tarief_vanaf": {
+            "name": "Next tariff from"
+          },
+          "bron_url": {
+            "name": "Source"
+          },
+          "laatst_opgehaald": {
+            "name": "Last fetched"
+          }
+        }
+      }
+    }
   }
 }

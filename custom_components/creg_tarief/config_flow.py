@@ -23,8 +23,9 @@ class CregConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             {
                 vol.Required(CONF_REGION, default=DEFAULT_REGION): selector.SelectSelector(
                     selector.SelectSelectorConfig(
-                        options=[{"value": k, "label": v} for k, v in REGIONS.items()],
+                        options=list(REGIONS),
                         mode="dropdown",
+                        translation_key="region",
                     )
                 )
             }
