@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.2.2
+- Tijdzone Europe/Brussels wordt één keer bij het importeren opgebouwd (`const.BRUSSELS`) in plaats van in de event loop, zodat Home Assistant niet kan blokkeren op trage schijven.
+
 ## v0.2.1
 - Engelse vertaling toegevoegd (`translations/en.json`), zodat de configuratie ook in andere talen dan Nederlands teksten toont.
 
