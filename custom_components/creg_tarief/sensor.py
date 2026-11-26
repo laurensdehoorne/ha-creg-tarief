@@ -4,20 +4,25 @@ from __future__ import annotations
 from datetime import datetime, time
 
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo, DeviceEntryType
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_point_in_time
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from . import CregConfigEntry
 from .const import BRUSSELS, DOMAIN, SOURCE_URL
 from .coordinator import CregCoordinator
 from .parser import ParseError, next_quarter, quarter_of, quarter_start, select
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add: AddEntitiesCallback) -> None:
-    add([CregTariefSensor(hass.data[DOMAIN][entry.entry_id], entry)])
+PARALLEL_UPDATES = 0
+
+
+async def async_setup_entry(
+    hass: HomeAssistant, entry: CregConfigEntry, async_add_entities: AddEntitiesCallback
+) -> None:
+    async_add_entities([CregTariefSensor(entry.runtime_data, entry)])
 
 
 class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
@@ -25,10 +30,9 @@ class CregTariefSensor(CoordinatorEntity[CregCoordinator], SensorEntity):
     _attr_translation_key = "tarief"
     _attr_native_unit_of_measurement = "EUR/kWh"
     _attr_icon = "mdi:ev-station"
-    _attr_state_class = None
     _attr_suggested_display_precision = 4
 
-    def __init__(self, coordinator: CregCoordinator, entry: ConfigEntry) -> None:
+    def __init__(self, coordinator: CregCoordinator, entry: CregConfigEntry) -> None:
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.unique_id}_tarief"
         self._attr_device_info = DeviceInfo(
